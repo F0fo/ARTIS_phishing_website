@@ -65,7 +65,7 @@ Your browser should automatically open to `http://localhost:3000`
 
 ### Step 3: Access the Application
 
-Open your browser and navigate to:
+Open your browser(preferably a chromium-based web browser) and navigate to:
 ```
 http://artis.corn:3000/changePassword
 ```
