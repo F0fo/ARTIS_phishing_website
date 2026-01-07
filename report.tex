@@ -1,0 +1,361 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{setspace}
+
+\geometry{margin=1in}
+\onehalfspacing
+
+% Code listing style
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red!60!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    numbersep=5pt
+}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{ARTIS Phishing Awareness Project}
+\lhead{Security Education Report}
+\rfoot{Page \thepage}
+
+\title{
+    \vspace{-1cm}
+    \textbf{ARTIS Phishing Awareness Project} \\
+    \large A Security Education Initiative on Credential Harvesting Attacks
+}
+\author{
+    University Project Report
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This report documents the development and educational purpose of the ARTIS Phishing Awareness Project, a controlled demonstration of credential harvesting techniques. The project was created to educate users about the dangers of phishing attacks by illustrating how attackers construct convincing fake websites to steal sensitive information. This report covers the technical implementation, security implications, and the importance of cybersecurity awareness training in modern organizations.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%------------------------------------------------------------
+\section{Introduction}
+%------------------------------------------------------------
+
+\subsection{Background}
+Phishing remains one of the most prevalent and effective cyber attack vectors in the digital landscape. According to the Anti-Phishing Working Group (APWG), phishing attacks have increased dramatically in recent years, with credential harvesting being the primary objective of most campaigns. These attacks exploit human psychology rather than technical vulnerabilities, making them particularly difficult to defend against through technological means alone.
+
+\subsection{Project Objectives}
+The ARTIS (Awareness, Recognition, Training, Information, Security) Phishing Awareness Project was developed with the following educational objectives:
+
+\begin{enumerate}
+    \item \textbf{Demonstrate} how phishing websites are constructed and deployed
+    \item \textbf{Educate} users on recognizing common phishing indicators
+    \item \textbf{Illustrate} the technical mechanisms behind credential harvesting
+    \item \textbf{Raise awareness} about the importance of verifying website authenticity
+    \item \textbf{Support} security awareness training programs
+\end{enumerate}
+
+\subsection{Ethical Considerations}
+This project was developed strictly for educational and authorized security awareness purposes. It is designed to be used in controlled environments with proper authorization. Unauthorized use of phishing techniques is illegal and unethical.
+
+%------------------------------------------------------------
+\section{Technical Architecture}
+%------------------------------------------------------------
+
+\subsection{System Overview}
+The ARTIS project implements a full-stack web application architecture consisting of:
+
+\begin{itemize}
+    \item \textbf{Frontend:} React.js single-page application
+    \item \textbf{Backend:} Node.js with Express.js framework
+    \item \textbf{Analytics:} Google Analytics 4 integration
+    \item \textbf{Data Storage:} File-based logging system
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{tabular}{|c|}
+        \hline
+        \textbf{System Architecture} \\
+        \hline
+        User Browser \\
+        $\downarrow$ \\
+        React Frontend (Port 3000) \\
+        $\downarrow$ \\
+        Express Backend (Port 5000) \\
+        $\downarrow$ \\
+        Data Storage (login\_data.txt) \\
+        \hline
+    \end{tabular}
+    \caption{High-level system architecture}
+\end{figure}
+
+\subsection{Frontend Implementation}
+The frontend was built using React.js, a popular JavaScript library for building user interfaces. Key components include:
+
+\subsubsection{Technology Stack}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Technology} & \textbf{Version} \\
+        \midrule
+        React & 19.2.3 \\
+        React Router DOM & 7.11.0 \\
+        React GA4 & 2.1.0 \\
+        React Scripts & 5.0.1 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Frontend technology stack}
+\end{table}
+
+\subsubsection{User Interface Design}
+The application presents a password change form designed to appear legitimate. Key design elements include:
+
+\begin{itemize}
+    \item Professional gradient background (purple to blue)
+    \item Clean, centered form container with shadow effects
+    \item Standard input fields with proper labels
+    \item Responsive design for various screen sizes
+    \item Error message display for validation feedback
+\end{itemize}
+
+\subsubsection{Form Validation}
+The form implements client-side validation:
+\begin{itemize}
+    \item All fields must be completed
+    \item New password must differ from old password
+    \item Email format validation through HTML5 input type
+\end{itemize}
+
+\subsection{Backend Implementation}
+The backend server handles data collection and storage using Node.js and Express.js.
+
+\subsubsection{API Endpoint}
+The server exposes a single POST endpoint:
+
+\begin{lstlisting}[language=JavaScript, caption=API Endpoint Structure]
+POST /api/changePassword
+Content-Type: application/json
+
+Request Body:
+{
+    "email": "user@example.com",
+    "old_password": "oldpass123",
+    "new_password": "newpass456"
+}
+\end{lstlisting}
+
+\subsubsection{Data Logging}
+Submitted credentials are logged with timestamps to a local file, demonstrating how attackers collect harvested data.
+
+\subsection{Analytics Integration}
+The project integrates Google Analytics 4 to track:
+\begin{itemize}
+    \item Page views and user visits
+    \item Form interaction patterns
+    \item User engagement metrics
+\end{itemize}
+
+This demonstrates how attackers can monitor the effectiveness of their phishing campaigns.
+
+%------------------------------------------------------------
+\section{Attack Vector Analysis}
+%------------------------------------------------------------
+
+\subsection{Social Engineering Techniques}
+The project demonstrates several social engineering principles:
+
+\subsubsection{Authority}
+The password change request implies organizational authority, suggesting the user must comply with a security policy.
+
+\subsubsection{Urgency}
+Password change requests often imply time-sensitive security concerns, pressuring users to act quickly without careful consideration.
+
+\subsubsection{Familiarity}
+The professional design mimics legitimate corporate interfaces, creating a false sense of trust.
+
+\subsection{Technical Deception Methods}
+
+\subsubsection{Domain Spoofing}
+The project uses a fake domain (artis.corn) configured through hosts file modification, demonstrating how attackers use look-alike domains.
+
+\subsubsection{HTTPS Absence}
+The demonstration intentionally operates over HTTP, highlighting the importance of verifying secure connections.
+
+\subsubsection{Redirect Mechanism}
+After credential submission, users are redirected to a legitimate website, concealing the attack and reducing suspicion.
+
+%------------------------------------------------------------
+\section{Security Implications}
+%------------------------------------------------------------
+
+\subsection{Risks Demonstrated}
+This project highlights several critical security risks:
+
+\begin{enumerate}
+    \item \textbf{Credential Theft:} Users who fall for phishing attacks expose their login credentials
+    \item \textbf{Account Compromise:} Stolen credentials enable unauthorized access to user accounts
+    \item \textbf{Data Breach:} Compromised accounts can lead to broader organizational data breaches
+    \item \textbf{Identity Theft:} Personal information can be used for identity fraud
+    \item \textbf{Financial Loss:} Credential theft often leads to direct financial damage
+\end{enumerate}
+
+\subsection{Vulnerability Factors}
+The following factors make users vulnerable to phishing:
+
+\begin{itemize}
+    \item Lack of security awareness training
+    \item Time pressure and multitasking
+    \item Trust in professional-looking interfaces
+    \item Failure to verify URL authenticity
+    \item Absence of multi-factor authentication
+\end{itemize}
+
+%------------------------------------------------------------
+\section{Importance of Security Awareness}
+%------------------------------------------------------------
+
+\subsection{Educational Value}
+Projects like ARTIS serve crucial educational purposes:
+
+\subsubsection{Experiential Learning}
+Seeing a phishing attack in action creates lasting impressions that theoretical training cannot achieve.
+
+\subsubsection{Recognition Training}
+Users learn to identify specific phishing indicators through exposure to realistic examples.
+
+\subsubsection{Behavioral Change}
+Awareness training has been shown to significantly reduce successful phishing attacks in organizations.
+
+\subsection{Organizational Benefits}
+Implementing security awareness programs provides:
+
+\begin{itemize}
+    \item Reduced risk of successful phishing attacks
+    \item Lower incident response costs
+    \item Improved security culture
+    \item Regulatory compliance support
+    \item Protection of organizational reputation
+\end{itemize}
+
+\subsection{Best Practices for Users}
+Based on this project's demonstration, users should:
+
+\begin{enumerate}
+    \item \textbf{Verify URLs:} Always check the address bar for correct domain names
+    \item \textbf{Look for HTTPS:} Ensure secure connections (padlock icon)
+    \item \textbf{Be Skeptical:} Question unexpected password change requests
+    \item \textbf{Use MFA:} Enable multi-factor authentication where available
+    \item \textbf{Report Suspicious Emails:} Notify IT/security teams of potential phishing
+    \item \textbf{Verify Requests:} Contact organizations directly through official channels
+\end{enumerate}
+
+%------------------------------------------------------------
+\section{Defense Mechanisms}
+%------------------------------------------------------------
+
+\subsection{Technical Controls}
+Organizations can implement various technical defenses:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Control} & \textbf{Description} \\
+        \midrule
+        Email Filtering & Block known phishing emails \\
+        URL Filtering & Block access to malicious websites \\
+        MFA & Require additional authentication factors \\
+        DMARC/SPF/DKIM & Email authentication protocols \\
+        Browser Extensions & Warn users of suspicious sites \\
+        \bottomrule
+    \end{tabular}
+    \caption{Technical defense mechanisms}
+\end{table}
+
+\subsection{Administrative Controls}
+Non-technical measures include:
+
+\begin{itemize}
+    \item Regular security awareness training
+    \item Simulated phishing exercises
+    \item Clear reporting procedures
+    \item Security policies and guidelines
+    \item Incident response plans
+\end{itemize}
+
+%------------------------------------------------------------
+\section{Conclusion}
+%------------------------------------------------------------
+
+The ARTIS Phishing Awareness Project demonstrates the technical simplicity and potential effectiveness of credential harvesting attacks. By understanding how these attacks work, users and organizations can better protect themselves against this persistent threat.
+
+Key takeaways from this project include:
+
+\begin{enumerate}
+    \item Phishing attacks are technically simple but socially sophisticated
+    \item Professional appearance does not guarantee legitimacy
+    \item User awareness is the most critical defense layer
+    \item Technical controls must complement security training
+    \item Regular practice and reinforcement are essential
+\end{enumerate}
+
+The continued prevalence of phishing attacks underscores the importance of ongoing security education. Projects like ARTIS serve as valuable tools for demonstrating these threats in controlled, educational environments.
+
+%------------------------------------------------------------
+\section{Future Work}
+%------------------------------------------------------------
+
+Potential enhancements for educational purposes include:
+
+\begin{itemize}
+    \item Adding more sophisticated social engineering scenarios
+    \item Implementing email-based phishing simulations
+    \item Creating interactive training modules
+    \item Developing metrics for measuring awareness improvement
+    \item Building comparison tools for legitimate vs. phishing sites
+\end{itemize}
+
+%------------------------------------------------------------
+\section*{Disclaimer}
+%------------------------------------------------------------
+\addcontentsline{toc}{section}{Disclaimer}
+
+This project was developed exclusively for educational and authorized security awareness training purposes. The techniques demonstrated should never be used for malicious purposes. Unauthorized phishing attacks are illegal under computer fraud and abuse laws in most jurisdictions. Always obtain proper authorization before conducting any security testing or awareness exercises.
+
+%------------------------------------------------------------
+\section*{References}
+%------------------------------------------------------------
+\addcontentsline{toc}{section}{References}
+
+\begin{enumerate}
+    \item Anti-Phishing Working Group (APWG). Phishing Activity Trends Reports. \url{https://apwg.org}
+    \item NIST Special Publication 800-61. Computer Security Incident Handling Guide.
+    \item Verizon Data Breach Investigations Report (DBIR). Annual Security Analysis.
+    \item SANS Institute. Security Awareness Training Resources.
+    \item OWASP. Phishing Prevention Cheat Sheet.
+\end{enumerate}
+
+\end{document}
